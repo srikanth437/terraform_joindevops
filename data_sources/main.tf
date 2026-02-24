@@ -1,5 +1,5 @@
 resource "aws_instance" "example" {
-  ami           = "ami-0220d79f3f480ecf5"
+  ami           = data.aws_ami.joindevops.id
   instance_type = "t3.micro"
 
   tags = {
@@ -32,4 +32,4 @@ resource "aws_security_group" "allow-all-terraform" {
     Name = "allow_all"
   }
 }
-
+ 
