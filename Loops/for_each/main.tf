@@ -1,12 +1,19 @@
 resource "aws_instance" "example" {
-  ami           = "ami-0220d79f3f480ecf5"
-  instance_type = "t3.micro"
+  for_each = var.instances
 
+  ami           = "ami-0220d79f3f480ecf5"
+  instance_type = each.value
+
+  lifecycle {
+    create_before_destroy = true
+  }
+  
   tags = {
-    name    = "terraform"
+    Name    = each.key
     project = "roboshop"
   }
 }
+
 
 resource "aws_security_group" "allow-all-terraform" {
   name        = "allow-all-terraform"

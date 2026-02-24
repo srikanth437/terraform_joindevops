@@ -1,15 +1,17 @@
 resource "aws_instance" "example" {
-  ami           = "ami-0220d79f3f480ecf5"
-  instance_type = "t3.micro"
+  count                  = 9
+  ami                    = "ami-0220d79f3f480ecf5"
+  instance_type          = "t3.micro"
+  vpc_security_group_ids = [aws_security_group.allow-all-terraform1.id]
 
   tags = {
-    name    = "terraform"
+    Name    = var.instance_name[count.index]
     project = "roboshop"
   }
 }
 
-resource "aws_security_group" "allow-all-terraform" {
-  name        = "allow-all-terraform"
+resource "aws_security_group" "allow-all-terraform1" {
+  name        = "allow-all-terraform1"
   description = "Allow TLS inbound traffic and all outbound traffic"
 
   egress {
